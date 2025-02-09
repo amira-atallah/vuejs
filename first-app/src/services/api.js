@@ -16,7 +16,7 @@ export default {
     return apiClient.post("/items", data);
   },
   update(id, data) {
-    return axios.put(`${API_URL}/${id}`, data);
+    return apiClient.patch(`/items/${id}`, data); // Fixed API_URL issue
   },
   delete(id) {
     return apiClient.delete(`/items/${id}`);

@@ -18,13 +18,39 @@ export default {
     const router = useRouter();
 
     onMounted(() => {
-      api.getOne(route.params.id).then((res) => (item.value = res.data));
+      console.log("Fetching item with ID:", route.params.id); // Debugging log
+
+      if (!route.params.id) {
+        console.error("❌ No ID found in route params!");
+        return;
+      }
+
+      api.getById(route.params.id)
+        .then((res) => {
+          console.log("✅ Item fetched:", res.data);
+          item.value = res.data;
+        })
+        .catch((error) => {
+          console.error("❌ Error fetching item:", error);
+        });
     });
 
     const updateItem = () => {
-      api.update(route.params.id, item.value).then(() => {
-        router.push("/");
-      });
+      console.log("Updating item with ID:", route.params.id, item.value); // Debugging log
+
+      if (!route.params.id) {
+        console.error("❌ No ID provided for update!");
+        return;
+      }
+
+      api.update(route.params.id, item.value)
+        .then(() => {
+          console.log("✅ Update successful!");
+          router.push("/");
+        })
+        .catch((error) => {
+          console.error("❌ Update failed:", error);
+        });
     };
 
     return { item, updateItem };
